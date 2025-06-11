@@ -1,0 +1,56 @@
+# 开发文件
+.env.local
+.env.development
+.env.test
+
+# 构建缓存
+.next/
+dist/
+build/
+.cache/
+
+# 依赖
+node_modules/
+
+# 日志
+*.log
+logs/
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 操作系统
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# 测试
+coverage/
+.nyc_output/
+
+# 临时文件
+tmp/
+temp/
+
+# Docker
+Dockerfile.dev
+docker-compose*.yml
+
+# 文档
+README.md
+*.md
+!RENDER_DEPLOYMENT.md
+
+# 扩展相关（不需要在服务器部署）
+apps/extension/
+
+# 开发工具
+.eslintrc*
+.prettierrc*
+jest.config* 
