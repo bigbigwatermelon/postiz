@@ -53,4 +53,4 @@ USER nextjs
 
 EXPOSE 3000 4200
 
-CMD ["sh", "-c", "if [ \"$SERVICE_TYPE\" = \"frontend\" ]; then pnpm run start:prod:frontend; elif [ \"$SERVICE_TYPE\" = \"backend\" ]; then pnpm run start:prod:backend; elif [ \"$SERVICE_TYPE\" = \"workers\" ]; then pnpm run start:prod:workers; else echo 'Please set SERVICE_TYPE environment variable'; fi"] 
+CMD ["sh", "-c", "if [ \"$SERVICE_TYPE\" = \"frontend\" ]; then pnpm run start:prod:frontend; elif [ \"$SERVICE_TYPE\" = \"backend\" ]; then pnpm run start:prod:backend; elif [ \"$SERVICE_TYPE\" = \"workers\" ]; then pnpm run start:prod:workers; elif [ \"$SERVICE_TYPE\" = \"cron\" ]; then pnpm run start:prod:cron; else echo 'Please set SERVICE_TYPE environment variable (frontend|backend|workers|cron)'; fi"] 
