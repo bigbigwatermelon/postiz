@@ -34,15 +34,9 @@ services:
       - key: JWT_SECRET
         generateValue: true
       - key: FRONTEND_URL
-        fromService:
-          name: postiz-frontend
-          type: web
-          property: host
+        value: https://postiz-frontend.onrender.com
       - key: NEXT_PUBLIC_BACKEND_URL
-        fromService:
-          name: postiz-backend
-          type: web
-          property: host
+        value: https://postiz-backend.onrender.com
       - key: BACKEND_INTERNAL_URL
         value: http://localhost:3000
       - key: STORAGE_PROVIDER
@@ -68,33 +62,9 @@ services:
       - key: PORT
         value: 4200
       - key: NEXT_PUBLIC_BACKEND_URL
-        fromService:
-          name: postiz-backend
-          type: web
-          property: host
+        value: https://postiz-backend.onrender.com
 
-  # Worker 服务
-  - type: worker
-    name: postiz-workers
-    env: node
-    plan: free
-    buildCommand: |
-      npm install -g pnpm@10.6.1 &&
-      pnpm install &&
-      pnpm run build:workers
-    startCommand: pnpm run start:prod:workers
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: DATABASE_URL
-        fromDatabase:
-          name: postiz-database
-          property: connectionString
-      - key: REDIS_URL
-        fromService:
-          name: postiz-redis
-          type: redis
-          property: connectionString
+
 
 databases:
   - name: postiz-database
