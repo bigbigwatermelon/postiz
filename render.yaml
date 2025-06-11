@@ -1,16 +1,9 @@
 services:
-  # 数据库服务
-  - type: pserv
-    name: postiz-database
-    env: node
-    plan: free
-    # PostgreSQL 会作为外部数据库使用
-
   # Redis 服务
   - type: redis
     name: postiz-redis
     plan: free
-    # Render 提供免费的 Redis 实例
+    ipAllowList: []  # 允许所有 IP 连接
 
   # 后端服务
   - type: web
@@ -18,14 +11,11 @@ services:
     env: node
     plan: free
     buildCommand: |
-      cd /opt/render/project/src &&
       npm install -g pnpm@10.6.1 &&
       pnpm install &&
       pnpm run prisma-generate &&
       pnpm run build:backend
-    startCommand: |
-      cd /opt/render/project/src &&
-      pnpm run start:prod:backend
+    startCommand: pnpm run start:prod:backend
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
@@ -49,7 +39,10 @@ services:
           type: web
           property: host
       - key: NEXT_PUBLIC_BACKEND_URL
-        sync: false
+        fromService:
+          name: postiz-backend
+          type: web
+          property: host
       - key: BACKEND_INTERNAL_URL
         value: http://localhost:3000
       - key: STORAGE_PROVIDER
@@ -65,13 +58,10 @@ services:
     env: node
     plan: free
     buildCommand: |
-      cd /opt/render/project/src &&
       npm install -g pnpm@10.6.1 &&
       pnpm install &&
       pnpm run build:frontend
-    startCommand: |
-      cd /opt/render/project/src &&
-      pnpm run start:prod:frontend
+    startCommand: pnpm run start:prod:frontend
     envVars:
       - key: NODE_ENV
         value: production
@@ -89,13 +79,10 @@ services:
     env: node
     plan: free
     buildCommand: |
-      cd /opt/render/project/src &&
       npm install -g pnpm@10.6.1 &&
       pnpm install &&
       pnpm run build:workers
-    startCommand: |
-      cd /opt/render/project/src &&
-      pnpm run start:prod:workers
+    startCommand: pnpm run start:prod:workers
     envVars:
       - key: NODE_ENV
         value: production
